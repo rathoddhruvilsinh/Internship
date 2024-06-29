@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: rgb(255, 255, 255);
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 2px solid #000000;
+            text-align: left;
+        }
+        th {
+            background-color: #70bec9;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th colspan="6"><center> Data table </center></th>
+        </tr>
+        <tr>
+            <th rowspan="2"><center>Disability category</center></th>
+            <th rowspan="2"><center>Participants</center></th>
+            <th rowspan="2"><center>Ballots copmleted</center></th>
+            <th rowspan="2"><center>Ballots Incopmlete/Terminated</center></th>
+            <th colspan="6"><center>Result</center></th>
+        </tr>
+        <tr>
+            <th><center>Accuracy</center></th>
+            <th><center>Time to complete</center></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Blind</td>
+            <td>5</td>
+            <td>1</td>
+            <td>4</td>
+            <td>11.5%,n=1</td>
+            <td>1000sec,n=1</td>
+        </tr>
+        <tr>
+            <td>Low vision</td>
+            <td>5</td>
+            <td>2</td>
+            <td>3</td>
+            <td>98.3%,n=2(97.7%,n=3)</td>
+            <td>1716sec,n=2(1900sec,n=4)</td>
+        </tr>
+        <tr>
+            <td>Dexterity</td>
+            <td>5</td>
+            <td></td>
+            <td>1</td>
+            <td>98.3%,n=4</td>
+            <td>1215sec,n=3</td>
+        </tr>
+        <tr>
+            <td>Mobility</td>
+            <td>3</td>
+            <td>3</td>
+            <td>0</td>
+            <td>95.4%,n=2</td>
+            <td>1400sec,n=2</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
