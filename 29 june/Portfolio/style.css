@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    width: 100%;
+    background: url('bg3.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+}
+
+.navbar{
+    width: 90%;
+    display: flex;
+    margin: auto;
+    padding: 35px 0;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar .logo{
+    
+    width: 10%;
+    height: 10%;
+    right: 100px;
+    bottom: 0;
+    margin-left: -4.5%;
+    margin-top: -2.5%;
+}
+
+ul{
+    margin-top: -4%;
+}
+
+ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 10px 16px;
+}
+
+ul li a{
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Bungee;',sans-serif;
+    text-decoration: none;
+    color: #59D5E0;
+    margin-top: -3%;
+    transition: .4s ease;
+
+}
+
+ul li a:hover{
+     text-decoration-line: underline;
+}
+
+.info{
+    margin-left: 7%;
+    margin-top: 6%;
+}
+
+.info h2{
+    font-size: 50px;
+    color: #ffffff;
+}
+
+.info h1{
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 24px;
+    color: #59D5E0;
+}
+
+.info p{
+    text-decoration: none;
+    color: #59D5E0;
+    margin-top: -3%;
+    margin: 26px 0;
+    padding: 0.1% 1px;
+    border-radius: 10px;
+    display: inline-block;
+    transition: .4s ease;
+}
+
+.image{
+    width: 25%;
+    height: 50%;
+    position: absolute;
+    right: 50px;
+    bottom: 10%;
+}
+
+.image img{
+    height: 130%;
+    position: absolute;
+    left: 20%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    transition: bottom 1s, left 1s;
+}
+
+.image:hover .Photo{
+    left: 5px;
+}
+
+.icons a{
+    text-decoration: none;
+    color: #59D5E0;
+}
+
+.icons ion-icon{
+    margin-left: 7%;
+    color: #2D9596;
+    margin-right: -60px;
+    font-size: 40px;
+    transition: .4s ease;
+    
+}
+
+.icons ion-icon:hover{
+    color: rgb(59,174,209);
+}
