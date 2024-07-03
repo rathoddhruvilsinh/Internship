@@ -347,75 +347,81 @@ footer {
 
 @media (max-width: 768px) {
   html {
-      font-size: 14px;
-  }
+    font-size: 14px;
+}
 
-  header {
-      padding: 15px 5%;
-  }
+header {
+    padding: 15px 5%;
+}
 
-  nav ul {
-      display: none;
-  }
+nav ul {
+    display: none;
+}
 
-  .Home {
-      flex-direction: column;
-      padding: 30px 5%;
-  }
+.Home {
+    flex-direction: column;
+    padding: 30px 5%;
+}
 
-  .Home-content {
-      padding-right: 0;
-      margin-bottom: 30px;
-  }
+.Home-content {
+    padding-right: 0;
+    margin-bottom: 30px;
+}
 
-  .about-container {
-      flex-direction: column;
-  }
+.about-company{
+    border-radius: 40vh 40vh 0 0;
+}
+.about-container {
+    flex-direction: column;
+}
 
-  .about-title {
-      width: 100%;
-      height: auto;
-      padding: 20px;
-      border-radius: 50px 50px 0 0;
-  }
+.about-title {
+    flex: none;
+    width: 80%;
+    height: auto;
+    margin-top: 2rem;
+    border-radius: 40vh 40vh 0 0;
+    margin-left: 0;
+    padding: 20px;
+}
 
-  .about-content p {
-      padding-left: 0;
-  }
+.about-content p {
+    padding-left: 0;
+}
 
-  .service-card, .service-card-2 {
-      flex-direction: column;
-      border-radius: 50px;
-  }
+.service-card, .service-card-2 {
+    flex-direction: column;
+    border-radius: 50px;
+}
 
-  .service-content {
-      padding: 20px 0;
-  }
+.service-content {
+    padding: 20px 0;
+}
 
-  .service-item {
-      flex-direction: column;
-  }
+.service-item {
+    flex-direction: column;
+}
 
-  .service-item h3 {
-      margin-right: 0;
-      margin-bottom: 15px;
-      padding-top: 0;
-  }
+.service-item h3 {
+    margin-right: 0;
+    margin-bottom: 15px;
+    padding-top: 0;
+}
 
-  .footer-content {
-      flex-direction: row;
-      text-align: center;
-  }
+.footer-content {
+    flex-direction: row;
+    text-align: center;
+}
 
-  .company-name {
-      margin-left: -100px;
-      margin-bottom: 10px;
-  }
+.company-name {
+    margin-left: -100px;
+    margin-bottom: 10px;
+}
 
-  .copyright {
-      margin-right: 10%;
-      margin-left: 0;
-  }
+.copyright {
+    margin-right: 10%;
+    margin-left: 0;
+    }
 }
 
 @media (max-width: 480px) {
