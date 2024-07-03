@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice Tutor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Typing Practice Tutor</h1>
+        <div id="text-container">
+            <p id="text-to-type"></p>
+        </div>
+        <textarea id="typing-area" placeholder="Start typing here..."></textarea>
+        <div class="stats">
+            <p>Time: <span id="timer">0</span>s</p>
+            <p>Errors: <span id="errors">0</span></p>
+            <p>WPM: <span id="wpm">0</span></p>
+        </div>
+        <button id="start-button">Start Practice</button>
+        <div class="history">
+            <h2>History</h2>
+            <ul id="history-list"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

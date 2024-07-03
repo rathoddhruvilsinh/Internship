@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice Tutor</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Aligns content with equal space between */
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: auto; /* Center aligns horizontally */
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .text-container {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #444;
+            border-radius: 10px;
+            background: #2e2e2e;
+            width: 100%;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #ddd;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .typing-area {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            background: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 10px;
+            resize: none;
+            transition: border-color 0.3s;
+        }
+
+        .typing-area:focus {
+            border-color: #2575fc;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .stats p {
+            font-size: 1rem;
+        }
+
+        .start-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #2575fc;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #1a5bbd;
+        }
+
+        .completion-message {
+            background-color: rgba(37, 117, 252, 0.2);
+            color: #2575fc;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .history {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            background: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .history h2 {
+            font-size: 1.5rem;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .history-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history li {
+            background: #444;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        /* Incorrect character highlight */
+        .incorrect {
+            color: #ff5c5c;
+        }
+
+        /* Correct character highlight */
+        .correct {
+            color: #7be292;
+        }
+
+        /* Keyboard Layout */
+        .keyboard-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .keyboard-key {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            width: 40px;
+            background-color: #444;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .keyboard-key:hover {
+            background-color: #2575fc;
+            transform: scale(1.1); /* Scale effect on hover */
+        }
+
+        /* Additional styles for keyboard resizing */
+        @media (max-width: 600px) {
+            .keyboard-key {
+                height: 30px;
+                width: 30px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Typing Practice Tutor</h1>
+        </header>
+        <main>
+            <section id="text-container" class="text-container">
+                <p id="text-to-type"></p>
+            </section>
+            <textarea id="typing-area" class="typing-area" placeholder="Start typing here..."></textarea>
+            <div class="stats">
+                <p>Time: <span id="timer">0</span>s</p>
+                <p>Errors: <span id="errors">0</span></p>
+                <p>WPM: <span id="wpm">0</span></p>
+            </div>
+            <button id="start-button" class="start-button">Start Practice</button>
+            <div id="completion-message" class="completion-message"></div>
+        </main>
+        <aside class="history">
+            <h2>History</h2>
+            <ul id="history-list" class="history-list"></ul>
+        </aside>
+    </div>
+
+    <!-- Keyboard Layout -->
+    <div class="keyboard-container">
+        <div class="keyboard-key">Q</div>
+        <div class="keyboard-key">W</div>
+        <div class="keyboard-key">E</div>
+        <div class="keyboard-key">R</div>
+        <div class="keyboard-key">T</div>
+        <div class="keyboard-key">Y</div>
+        <div class="keyboard-key">U</div>
+        <div class="keyboard-key">I</div>
+        <div class="keyboard-key">O</div>
+        <div class="keyboard-key">P</div>
+
+        <div class="keyboard-key">A</div>
+        <div class="keyboard-key">S</div>
+        <div class="keyboard-key">D</div>
+        <div class="keyboard-key">F</div>
+        <div class="keyboard-key">G</div>
+        <div class="keyboard-key">H</div>
+        <div class="keyboard-key">J</div>
+        <div class="keyboard-key">K</div>
+        <div class="keyboard-key">L</div>
+
+        <div class="keyboard-key">Z</div>
+        <div class="keyboard-key">X</div>
+        <div class="keyboard-key">C</div>
+        <div class="keyboard-key">V</div>
+        <div class="keyboard-key">B</div>
+        <div class="keyboard-key">N</div>
+        <div class="keyboard-key">M</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const texts = [
+                "The quick brown fox jumps over the lazy dog.",
+                "A journey of a thousand miles begins with a single step.",
+                "To be or not to be, that is the question.",
+                "All that glitters is not gold.",
+                "The only thing we have to fear is fear itself."
+            ];
+
+            const textToTypeElement = document.getElementById('text-to-type');
+            const typingArea = document.getElementById('typing-area');
+            const timerElement = document.getElementById('timer');
+            const errorsElement = document.getElementById('errors');
+            const wpmElement = document.getElementById('wpm');
+            const startButton = document.getElementById('start-button');
+            const historyList = document.getElementById('history-list');
+            const completionMessage = document.getElementById('completion-message');
+
+            let timer = 0;
+            let errors = 0;
+            let interval;
+            let startTime;
+            let currentText = '';
+            const history = [];
+
+            function startPractice() {
+                currentText = getRandomText();
+                textToTypeElement.innerHTML = currentText.split('').map(char => `<span>${char === ' ' ? '&nbsp;' : char}</span>`).join('');
+                typingArea.value = '';
+                typingArea.disabled = false;
+                typingArea.focus();
+                timer = 0;
+                errors = 0;
+                startTime = new Date();
+                updateStats();
+                clearInterval(interval);
+                interval = setInterval(updateTimer, 1000);
+                completionMessage.style.display = 'none';
+            }
+
+            startButton.addEventListener('click', startPractice);
+
+            typingArea.addEventListener('input', () => {
+                const typedText = typingArea.value.trim();
+                const textSpans = textToTypeElement.querySelectorAll('span');
+
+                errors = 0; // Reset errors count
+
+                textSpans.forEach((span, index) => {
+                    const typedChar = typedText[index];
+                    if (!typedChar) {
+                        span.classList.remove('correct', 'incorrect');
+                        return;
+                    }
+                    if (typedChar === span.textContent) {
+                        span.classList.add('correct');
+                        span.classList.remove('incorrect');
+                    } else {
+                        span.classList.remove('correct');
+                        span.classList.add('incorrect');
+                        errors++; // Increment errors count
+                    }
+                });
+
+                const typedCorrectly = typedText === currentText;
+                if (typedCorrectly) {
+                    clearInterval(interval);
+                    typingArea.disabled = true;
+                    const endTime = new Date();
+                    const timeTaken = (endTime - startTime) / 1000;
+                    const wpm = calculateWPM(typedText, timeTaken);
+                    addToHistory(timeTaken, errors, wpm);
+                    displayCompletionMessage(`Practice complete! Time: ${timeTaken.toFixed(2)}s, Errors: ${errors}, WPM: ${wpm}`);
+                }
+
+                updateStats();
+            });
+
+            function updateTimer() {
+                timer++;
+                updateStats();
+            }
+
+            function updateStats() {
+                timerElement.textContent = timer;
+                errorsElement.textContent = errors;
+                wpmElement.textContent = calculateWPM(typingArea.value, timer);
+            }
+
+            function calculateWPM(text, timeInSeconds) {
+                const wordsTyped = text.trim().split(/\s+/).length;
+                const minutes = timeInSeconds / 60;
+                return Math.round(wordsTyped / minutes);
+            }
+
+            function addToHistory(time, errors, wpm) {
+                history.push({ time: time.toFixed(2), errors, wpm });
+                const historyItem = document.createElement('li');
+                historyItem.textContent = `Time: ${time.toFixed(2)}s, Errors: ${errors}, WPM: ${wpm}`;
+                historyList.appendChild(historyItem);
+            }
+
+            function displayCompletionMessage(message) {
+                completionMessage.textContent = message;
+                completionMessage.style.display = 'block';
+            }
+
+            function getRandomText() {
+                const randomIndex = Math.floor(Math.random() * texts.length);
+                return texts[randomIndex];
+            }
+
+            // Keyboard Layout Interaction
+            const keyboardKeys = document.querySelectorAll('.keyboard-key');
+
+            keyboardKeys.forEach(key => {
+                key.addEventListener('click', () => {
+                    const currentCursorPosition = typingArea.selectionStart;
+                    const valueBeforeCursor = typingArea.value.substring(0, currentCursorPosition);
+                    const valueAfterCursor = typingArea.value.substring(currentCursorPosition);
+                    typingArea.value = valueBeforeCursor + key.textContent + valueAfterCursor;
+                    typingArea.focus();
+                    typingArea.selectionStart = currentCursorPosition + 1;
+                    typingArea.selectionEnd = currentCursorPosition + 1;
+                    typingArea.dispatchEvent(new Event('input'));
+                });
+            });
+
+            // Resize keyboard keys on smaller screens
+            function resizeKeyboard() {
+                const screenWidth = window.innerWidth;
+                const keyboardContainer = document.querySelector('.keyboard-container');
+                if (screenWidth <= 600) {
+                    keyboardContainer.style.fontSize = '0.8rem';
+                    keyboardKeys.forEach(key => {
+                        key.style.width = '30px';
+                        key.style.height = '30px';
+                    });
+                } else {
+                    keyboardContainer.style.fontSize = '0.9rem';
+                    keyboardKeys.forEach(key => {
+                        key.style.width = '40px';
+                        key.style.height = '40px';
+                    });
+                }
+            }
+
+            window.addEventListener('resize', resizeKeyboard);
+            resizeKeyboard(); // Call once on page load
+        });
+    </script>
+</body>
+</html>
