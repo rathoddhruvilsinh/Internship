@@ -3,153 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
     <link rel="stylesheet" href="style.css">
-    <title>Company website home page</title>
-    <style>
-    </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">
-            <img src="BMW.jpg" alt="Logo">
-        </div>
-        <ul class="menu">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Our Services</a></li>
-            <li><a href="#">Service Map</a></li>
-            <li><a href="#">Contact Us</a></li>
-        </ul>
-        <a class="sign-in">Sign in</a>
-    </div>
-    <div class="container">
-        <div class="content">
-            <div class="text">
-                <h1 class="mix-color">Providing Industry Leading <span>Solutions for</span></h1>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#home"><img src="BMW.jpg" alt="Company Logo"></a>
+            </div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Our Services</a></li>
+                <li><a href="#map">Service Map</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+            <button class="sign-in-btn">Sign in</button>
+        </nav>
+    </header><br><br><br>
+
+    <main>
+        <section class="Home" id="home">
+            <div class="Home-content">
+                <h1>
+                    <span class="content">Providing Industry Leading</span><br>
+                    <span class="content">Solutions for</span>
+                </h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Habitant cras morbi hendrerit nunc vel sapien. In habitasse at diam suspendisse non vitae fermentum, pharetra arcu. Viverra a morbi ut donec in. Ac diam, at sed cras nisi.</p>
-                <a href="#" class="arrow-button">Learn more</a>
+                <br><button class="learn-more-btn">Learn More →</button>
             </div>
-            <div class="illustration">
-                <img src="bro.png" alt="">
+            <div class="company-img">
+                <img src="bro.png" alt="Business presentation illustration">
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
+        <section class="about-company" id="about">
+            <div class="about-container">
+              <div class="about-title">
+                <h2>About <br>Company</h2>
+              </div>
+              <div class="about-content">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget 
+                  duis mi nunc bibendum. Tellus elementum nec lorem eget 
+                  dictumst. Risus in gravida eu, enim lorem. Sed consequat ut 
+                  suspendisse eros. Nunc nunc accumsan, viverra enim. Mi.
+                </p>
+              </div>
+            </div>
+          </section>
+            <section class="our-services" id="services">
+                <h2>Our Services</h2>
+                
+                <div class="service-card">
+                  <div class="service-content">
+                    <h3>Non-IT enterprises</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat bibendum sit felis, sollicitudin et. Nulla aliquet integer hac ac morbi.</p>
+                    <a href="#" class="trn-learn-more">Learn More →</a>
+                  </div>
+                  <div class="service-image-1">
+                    <img src="bro1.png" alt="Non-IT enterprises">
+                  </div>
+                </div>
+              
+                <div class="service-card-2">
+                  <div class="service-image-2">
+                    <img src="rafiki.png" alt="Software product companies">
+                  </div>
+                  <div class="service-content">
+                    <h3>Software product companies</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</p>
+                    <a href="#" class="trn-learn-more">Learn More →</a>
+                  </div>
+                </div>
 
-    <div class="about">
-    <div class="about-container">
-        <div class="about-title">
-            <h2>About Company</h2>
-        </div>
-        <div class="about-content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget duis mi nunc bibendum. Tellus elementum nec lorem eget dictumst. Risus in gravida eu, enim lorem. Sed consequat ut suspendisse eros. Nunc nunc accumsan, viverra enim. Mi.</p>
-        </div>
-    </div>
-    </div>
- 
-    <div class="services-container">
-        <h1>Our Services</h1>
-        <div class="service-card">
-          <div class="service-content">
-            <h2>Non-IT enterprises</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat bibendum sit felis, sollicitudin et. Nulla aliquet integer hac ac morbi.</p>
-            <a href="#" class="learn-more">Learn More →</a>
-          </div>
-          <div class="service-image">
-            <!-- You would need to replace this with the actual image -->
-            <img src="bro1.png" alt="Non-IT enterprises illustration">
-          </div>
-        </div>
-      </div>
+                <div class="service-card">
+                    <div class="service-content">
+                      <h3>Non-IT enterprises</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat bibendum sit felis, sollicitudin et. Nulla aliquet integer hac ac morbi.</p>
+                      <a href="#" class="trn-learn-more">Learn More →</a>
+                    </div>
+                    <div class="service-image-1">
+                      <img src="bro1.png" alt="Non-IT enterprises">
+                    </div>
+                  </div>
+                
+              </section>
 
-      <div class="product">
-      <div class="product-container">
-        <div class="product-image">
-          <!-- Replace with actual image -->
-          <img src="rafiki.png" alt="Software product illustration">
-        </div>
-        <div class="product-content">
-          <h2>Software product companies</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</p>
-          <a href="#" class="learn-more">Learn More →</a>
-        </div>
-      </div>
-    </div>
+              <section class="service-map" id="map">
+                <h2>Service Map</h2>
+                
+                <div class="service-item">
+                  <h3>IT consulting</h3>
+                  <ul>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
+                  </ul>
+                </div>
+              
+                <div class="service-item">
+                  <h3>Software<br>Development</h3>
+                  <ul>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
+                  </ul>
+                </div>
+              
+                <div class="service-item">
+                  <h3>Testing and QA</h3>
+                  <ul>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
+                  </ul>
+                </div>
+              
+                <div class="view-all">
+                  <a href="#" class="view-all-link">View All Services</a>
+                </div>
+              </section>
 
-    <div class="services-container">
-        <div class="service-card">
-          <div class="service-content">
-            <h2>Non-IT enterprises</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat bibendum sit felis, sollicitudin et. Nulla aliquet integer hac ac morbi.</p>
-            <a href="#" class="learn-more">Learn More →</a>
-          </div>
-          <div class="service-image">
-            <!-- You would need to replace this with the actual image -->
-            <img src="bro1.png" alt="Non-IT enterprises illustration">
-          </div>
-        </div>
-      </div> 
 
-      <div class="service-map">
-        <h1>Service Map</h1>
-        <div class="content">
-          <div class="left-column">
-            <h2>IT consulting</h2>
-          </div>
-          <div class="right-column">
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+              <section class="contact-us" id="contact">
+                <h2>Contact Us</h2>
+                <form>
+                    <input class="input" type="text" placeholder="Full Name" required>
+                    <input class="input" type="email" placeholder="Email Address" required>
+                    <input class="input" type="tel" placeholder="Phone Number">
+                    <textarea class="input" placeholder="Have anything to say?"></textarea>
+                    <button type="submit" class="btn , input">Send</button>
+                </form>
+                <div class="bubble bubble-1"></div>
+                <div class="bubble bubble-2"></div>
+            </section>
 
-      <div class="software-development">
-        <div class="content1">
-          <div class="left-column1">
-            <h2 class="sd">Software Development</h2>
-          </div>
-          <div class="right-column1">
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="testing-and-qa">
-        <div class="content2">
-          <div class="left-column2">
-            <h2 class="tq">Testing and QA</h2>
-          </div>
-          <div class="right-column2">
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit viverra porta tortor, elementum ultrices. Blandit quam nec aliquam.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-us">
-        <a class="view-all">View All Services</a>
-        <div class="container1">
-            <h2>Contact Us</h2>
-            <form>
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="tel" placeholder="Phone Number" required>
-                <textarea type="text" placeholder="Have anything to say?"></textarea>
-                <button type="submit">Send</button>
-            </form>
-        </div>
-        </div>
-
-    <div class="footer">
-        <span class="company-name">Company Name</span>
-        <span class="copyright">Company , 2022 © All Rights Reserved</span>
-      </div>
-
+            <footer>
+                <div class="footer-content">
+                  <span class="company-name">Company Name</span>
+                  <span class="copyright">Company © 2022 All Rights Reserved</span>
+                </div>
+              </footer>
 </body>
 </html>
