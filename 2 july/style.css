@@ -112,7 +112,7 @@ nav ul li a {
   background-color: #F5F8FF;
   margin: 40px 5%;
   padding: 20px;
-  border-radius: 40vh 0 0 40vh;
+  border-radius: 40vh 40vh 40vh 40vh;
 }
 
 .about-container {
@@ -130,7 +130,7 @@ nav ul li a {
   width: 300px;
   height: 300px;
   background-color: white;
-  margin: 0 0 0 -1.5rem;
+  margin: 0 0 0 -5rem;
   border-radius: 40vh 0 0 40vh;
 }
 
@@ -377,11 +377,12 @@ nav ul {
 
 .about-title {
     flex: none;
+    text-align: center;
     width: 80%;
     height: auto;
     margin-top: 2rem;
     border-radius: 40vh 40vh 0 0;
-    margin-left: 0;
+    margin-left: 2%;
     padding: 20px;
 }
 
