@@ -4,26 +4,388 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Practice Tutor</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #4a4e69;
+            --secondary-color: #9a8c98;
+            --accent-color: #a6ccff;
+            --background-color: #87bbff;
+            --text-color: #22223b;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .main-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 800px;
+            width: 700px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #text-container {
+            background-color: var(--accent-color);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #text-to-type {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .correct { color: #4caf50; }
+        .incorrect { color: #f44336; }
+        .space-error {
+            color: #f44336;
+            text-decoration: underline wavy #f44336;
+        }
+
+        #typing-area {
+            width: 680px;
+            height: 100px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: var(--text-color);
+            resize: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #typing-area:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        .history h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history li {
+            background-color: var(--accent-color);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            color: var(--text-color);
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .popup-content {
+            text-align: center;
+        }
+
+        .timer-card {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        #timer-input {
+            width: 80px;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .restart-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .restart-btn:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .restart-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Typing Practice Tutor</h1>
-        <div id="text-container">
-            <p id="text-to-type"></p>
+    <div class="main-container">
+        <div class="container">
+            <h1>Typing Practice Tutor</h1>
+            <div class="card timer-card">
+                <div class="timer-display">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+                <div class="timer-controls">
+                    <input type="number" id="timer-input" min="1" max="3600" value="60">
+                </div>
+            </div>
+            <div class="card" id="text-container">
+                <p id="text-to-type"></p>
+            </div>
+            <textarea id="typing-area" placeholder="Start typing here..."></textarea>
+            <div class="card stats">
+                <p>Errors: <span id="errors">0</span></p>
+                <p>WPM: <span id="wpm">0</span></p>
+                <p>CPM: <span id="cpm">0</span></p>
+            </div>
+            <div class="card history">
+                <h2>History</h2>
+                <ul id="history-list"></ul>
+            </div>
         </div>
-        <textarea id="typing-area" placeholder="Start typing here..."></textarea>
-        <div class="stats">
-            <p>Time: <span id="timer">0</span>s</p>
-            <p>Errors: <span id="errors">0</span></p>
-            <p>WPM: <span id="wpm">0</span></p>
-        </div>
-        <button id="start-button">Start Practice</button>
-        <div class="history">
-            <h2>History</h2>
-            <ul id="history-list"></ul>
+
+        <div class="popup" id="result-popup">
+            <div class="popup-content">
+                <h2>Practice Complete!</h2>
+                <p id="popup-message">Time: <span id="popup-time">0</span>s, Errors: <span id="popup-errors">0</span>, WPM: <span id="popup-wpm">0</span>, CPM: <span id="popup-cpm">0</span></p>
+                <button class="restart-btn" id="restart-btn">Restart</button>
+            </div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const texts = [
+                "The quick brown fox jumps over the lazy dog.",
+                "A journey of a thousand miles begins with a single step.",
+                "To be or not to be, that is the question.",
+                "All that glitters is not gold.",
+                "The only thing we have to fear is fear itself."
+            ];
+
+            const textToTypeElement = document.getElementById('text-to-type');
+            const typingArea = document.getElementById('typing-area');
+            const errorsElement = document.getElementById('errors');
+            const wpmElement = document.getElementById('wpm');
+            const cpmElement = document.getElementById('cpm');
+            const historyList = document.getElementById('history-list');
+            const resultPopup = document.getElementById('result-popup');
+            const popupTime = document.getElementById('popup-time');
+            const popupErrors = document.getElementById('popup-errors');
+            const popupWPM = document.getElementById('popup-wpm');
+            const popupCPM = document.getElementById('popup-cpm');
+            const restartBtn = document.getElementById('restart-btn');
+            const timerInput = document.getElementById('timer-input');
+            const minutesElement = document.getElementById('minutes');
+            const secondsElement = document.getElementById('seconds');
+
+            let timer = 0;
+            let errors = 0;
+            let interval;
+            let startTime;
+            let currentText = '';
+            let userSetTime;
+            let timerStarted = false;
+            let typedCharacters = 0;
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                secondsElement.textContent = seconds.toString().padStart(2, '0');
+            }
+
+            function startTimer() {
+                clearInterval(interval);
+                timer = parseInt(timerInput.value, 10);
+                updateTimerDisplay();
+                interval = setInterval(() => {
+                    timer--;
+                    if (timer < 0) {
+                        clearInterval(interval);
+                        typingArea.disabled = true;
+                        const timeInSeconds = userSetTime;
+                        const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, timeInSeconds / 60);
+                        displayPopup(timeInSeconds, errors, wpm, cpm);
+                    } else {
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            }
+
+            function startPractice() {
+                currentText = texts[Math.floor(Math.random() * texts.length)];
+                textToTypeElement.innerHTML = currentText.split('').map(char => `<span>${char}</span>`).join('');
+                typingArea.value = '';
+                typingArea.disabled = false;
+                typingArea.focus();
+                userSetTime = parseInt(timerInput.value, 10);
+                timer = userSetTime;
+                errors = 0;
+                timerStarted = false;
+                startTime = null;
+                typedCharacters = 0;
+                updateStats();
+                updateTimerDisplay();
+            }
+
+            typingArea.addEventListener('input', () => {
+                if (!timerStarted) {
+                    startTimer();
+                    timerStarted = true;
+                    startTime = new Date();
+                }
+
+                const typedText = typingArea.value;
+                const textSpans = textToTypeElement.querySelectorAll('span');
+                
+                errors = 0;
+                typedCharacters = typedText.length;
+
+                textSpans.forEach((span, index) => {
+                    if (index < typedText.length) {
+                        if (typedText[index] === currentText[index]) {
+                            span.classList.add('correct');
+                            span.classList.remove('incorrect', 'space-error');
+                        } else {
+                            span.classList.remove('correct');
+                            if (currentText[index] === ' ') {
+                                span.classList.add('space-error');
+                                span.classList.remove('incorrect');
+                            } else {
+                                span.classList.add('incorrect');
+                                span.classList.remove('space-error');
+                            }
+                            errors++;
+                        }
+                    } else {
+                        span.classList.remove('correct', 'incorrect', 'space-error');
+                    }
+                });
+
+                updateStats();
+
+                if (typedText === currentText) {
+                    clearInterval(interval);
+                    typingArea.disabled = true;
+                    const endTime = new Date();
+                    const timeInMinutes = (endTime - startTime) / 60000;
+                    const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, timeInMinutes);
+                    displayPopup(timeInMinutes * 60, errors, wpm, cpm);
+                }
+            });
+
+            function updateStats() {
+                errorsElement.textContent = errors;
+                const elapsedTimeInMinutes = (new Date() - startTime) / 60000;
+                const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, elapsedTimeInMinutes);
+                wpmElement.textContent = wpm;
+                cpmElement.textContent = cpm;
+            }
+
+            function calculateWPMAndCPM(characters, timeInMinutes) {
+                const words = characters / 5; // Assuming average word length of 5 characters
+                const wpm = timeInMinutes > 0 ? Math.round((words / timeInMinutes)) : 0;
+                const cpm = timeInMinutes > 0 ? Math.round((characters / timeInMinutes)) : 0;
+                return { wpm, cpm };
+            }
+
+            function displayPopup(time, errors, wpm, cpm) {
+                popupTime.textContent = time.toFixed(2);
+                popupErrors.textContent = errors;
+                popupWPM.textContent = wpm;
+                popupCPM.textContent = cpm;
+                resultPopup.style.display = 'block';
+                
+                const historyItem = document.createElement('li');
+                historyItem.textContent = `Time: ${time.toFixed(2)}s, Errors: ${errors}, WPM: ${wpm}, CPM: ${cpm}`;
+                historyList.appendChild(historyItem);
+            }
+
+            restartBtn.addEventListener('click', () => {
+                resultPopup.style.display = 'none';
+                startPractice();
+            });
+
+            startPractice();
+        });
+    </script>
 </body>
 </html>
