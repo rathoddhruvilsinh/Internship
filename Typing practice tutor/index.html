@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Typing Practice Tutor</title>
+    <style>
+        :root {
+            --primary-color: #4a4e69;
+            --secondary-color: #9a8c98;
+            --accent-color: #a6ccff;
+            --background-color: #87bbff;
+            --text-color: #22223b;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #text-container {
+            background-color: var(--accent-color);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #text-to-type {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .correct { color: #4caf50; }
+        .incorrect { color: #f44336; }
+        .space-error {
+            color: #f44336;
+            text-decoration: underline wavy #f44336;
+        }
+
+        #typing-area {
+            width: 100%;
+            max-width: 680px;
+            height: 100px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: var(--text-color);
+            resize: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        #typing-area:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        .stats p {
+            margin: 5px 10px;
+        }
+
+        .history h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history li {
+            background-color: var(--accent-color);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            color: var(--text-color);
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+
+        .popup-content {
+            text-align: center;
+        }
+
+        .timer-card {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #timer-input {
+            width: 80px;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .restart-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .restart-btn:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .restart-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #reset-btn {
+            margin-left: 10px;
+            height: auto;
+            font-size: 11px;
+            text-align: center;
+            align-items: center;
+            margin-top: 0;
+            background-color: #87bbff;
+            color: #ffffff;
+        }
+
+        #reset-btn:hover {
+            background-color: #22223b;
+        }
+
+        .backspace-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .backspace-toggle label {
+            margin-right: 10px;
+        }
+
+        .backspace-toggle input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            #text-to-type {
+                font-size: 1rem;
+            }
+
+            #typing-area {
+                height: 80px;
+            }
+
+            .timer-display {
+                font-size: 2.5rem;
+            }
+
+            .restart-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            #text-to-type {
+                font-size: 0.9rem;
+            }
+
+            #typing-area {
+                height: 60px;
+                font-size: 0.9rem;
+            }
+
+            .timer-display {
+                font-size: 2rem;
+            }
+
+            .restart-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .stats {
+                font-size: 0.9rem;
+            }
+
+            .history h2 {
+                font-size: 1.2rem;
+            }
+
+            .history li {
+                font-size: 0.9rem;
+            }
+
+            .timer-controls {
+                flex-direction: column;
+            }
+
+            #reset-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .popup {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .popup-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .popup-content p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container">
+            <h1>Typing Practice Tutor</h1>
+            <div class="card timer-card">
+                <div class="timer-display">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+                <div class="timer-controls">
+                    <input type="number" id="timer-input" min="1" max="3600" value="60">
+                    <button id="reset-btn" class="restart-btn">Reset</button>
+                </div>
+            </div>
+            <div class="card" id="text-container">
+                <p id="text-to-type"></p>
+            </div>
+            <div class="card backspace-toggle">
+                <label for="backspace-toggle">Allow Backspace:</label>
+                <input type="checkbox" id="backspace-toggle" checked>
+            </div>
+            <textarea id="typing-area" placeholder="Start typing here..."></textarea>
+            <div class="card stats">
+                <p>Errors: <span id="errors">0</span></p>
+                <p>WPM: <span id="wpm">0</span></p>
+                <p>CPM: <span id="cpm">0</span></p>
+                <p>Accuracy: <span id="accuracy">0%</span></p>
+                <p>Backspaces: <span id="backspaces">0</span></p>
+            </div>
+            <div class="card history">
+                <h2>History</h2>
+                <ul id="history-list"></ul>
+            </div>
+        </div>
+
+        <div class="popup" id="result-popup">
+            <div class="popup-content">
+                <h2>Practice Complete!</h2>
+                <p id="popup-message">Time: <span id="popup-time">0</span>s, Errors: <span id="popup-errors">0</span>, WPM: <span id="popup-wpm">0</span>, CPM: <span id="popup-cpm">0</span>, Accuracy: <span id="popup-accuracy">0%</span></p>
+                <button class="restart-btn" id="restart-btn">Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const texts = [
+                "The quick brown fox jumps over the lazy dog.",
+                "A journey of a thousand miles begins with a single step.",
+                "To be or not to be, that is the question.",
+                "In the end, it's not the years in your life that count. It's the life in your years.",
+                "It is during our darkest moments that we must focus to see the light."
+            ];
+
+            const textToTypeElement = document.getElementById('text-to-type');
+            const typingArea = document.getElementById('typing-area');
+            const errorsElement = document.getElementById('errors');
+            const wpmElement = document.getElementById('wpm');
+            const cpmElement = document.getElementById('cpm');
+            const accuracyElement = document.getElementById('accuracy');
+            const backspacesElement = document.getElementById('backspaces');
+            const historyList = document.getElementById('history-list');
+            const resultPopup = document.getElementById('result-popup');
+            const popupTime = document.getElementById('popup-time');
+            const popupErrors = document.getElementById('popup-errors');
+            const popupWPM = document.getElementById('popup-wpm');
+            const popupCPM = document.getElementById('popup-cpm');
+            const popupAccuracy = document.getElementById('popup-accuracy');
+            const restartBtn = document.getElementById('restart-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const timerInput = document.getElementById('timer-input');
+            const minutesElement = document.getElementById('minutes');
+            const secondsElement = document.getElementById('seconds');
+            const backspaceToggle = document.getElementById('backspace-toggle');
+
+            let timer = 0;
+            let errors = 0;
+            let totalErrors = 0;
+            let totalCharacters = 0;
+            let interval;
+            let startTime;
+            let currentText = '';
+            let userSetTime;
+            let timerStarted = false;
+            let typedCharacters = 0;
+            let previousLength = 0;
+            let backspaceCount = 0;
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                secondsElement.textContent = seconds.toString().padStart(2, '0');
+            }
+
+            function startTimer() {
+                clearInterval(interval);
+                timer = parseInt(timerInput.value, 10);
+                updateTimerDisplay();
+                interval = setInterval(() => {
+                    timer--;
+                    if (timer < 0) {
+                        endTypingSession();
+                    } else {
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            }
+
+            function resetPractice() {
+                clearInterval(interval);
+                typingArea.value = '';
+                typingArea.disabled = false;
+                errors = 0;
+                totalErrors = 0;
+                totalCharacters = 0;
+                timerStarted = false;
+                startTime = null;
+                typedCharacters = 0;
+                previousLength = 0;
+                backspaceCount = 0;
+                timer = parseInt(timerInput.value, 10);
+                updateTimerDisplay();
+                updateStats();
+                startPractice();
+            }
+
+            function startPractice() {
+                currentText = texts[Math.floor(Math.random() * texts.length)];
+                textToTypeElement.innerHTML = currentText.split('').map(char => `<span>${char}</span>`).join('');
+                typingArea.value = '';
+                typingArea.disabled = false;
+                typingArea.focus();
+                userSetTime = parseInt(timerInput.value, 10);
+                timer = userSetTime;
+                errors = 0;
+                totalErrors = 0;
+                totalCharacters = 0;
+                timerStarted = false;
+                startTime = null;
+                typedCharacters = 0;
+                previousLength = 0;
+                backspaceCount = 0;
+                updateStats();
+                updateTimerDisplay();
+            }
+
+            typingArea.addEventListener('input', (e) => {
+                if (!timerStarted) {
+                    startTimer();
+                    timerStarted = true;
+                    startTime = new Date();
+                }
+
+                const typedText = typingArea.value;
+                const textSpans = textToTypeElement.querySelectorAll('span');
+
+                typedCharacters = typedText.length;
+
+                // Count errors, accuracy, and backspaces
+                if (typedText.length < previousLength) {
+                    backspaceCount++;
+                } else if (typedText.length > previousLength) {
+                    const newChar = typedText[typedText.length - 1];
+                    const expectedChar = currentText[typedText.length - 1];
+                    if (newChar !== expectedChar) {
+                        totalErrors++;
+                    }
+                }
+
+                previousLength = typedText.length;
+
+                // Update total characters
+                totalCharacters = typedCharacters;
+
+                // Calculate accuracy
+                if (totalCharacters > 0) {
+                    const accuracy = ((totalCharacters - totalErrors) / totalCharacters) * 100;
+                    accuracyElement.textContent = accuracy.toFixed(2) + '%';
+                }
+
+                textSpans.forEach((span, index) => {
+                    if (index < typedText.length) {
+                        if (typedText[index] === currentText[index]) {
+                            span.classList.add('correct');
+                            span.classList.remove('incorrect', 'space-error');
+                        } else {
+                            span.classList.remove('correct');
+                            if (currentText[index] === ' ') {
+                                span.classList.add('space-error');
+                                span.classList.remove('incorrect');
+                            } else {
+                                span.classList.add('incorrect');
+                                span.classList.remove('space-error');
+                            }
+                        }
+                    } else {
+                        span.classList.remove('correct', 'incorrect', 'space-error');
+                    }
+                });
+
+                updateStats();
+
+                if (typedText.length >= currentText.length) {
+                    endTypingSession();
+                }
+            });
+
+            function endTypingSession() {
+                clearInterval(interval);
+                typingArea.disabled = true;
+                const endTime = new Date();
+                const timeInMinutes = (endTime - startTime) / 60000;
+                const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, timeInMinutes);
+                displayPopup(timeInMinutes * 60, totalErrors, wpm, cpm);
+                totalCharacters += currentText.length;
+            }
+
+            function updateStats() {
+                errorsElement.textContent = totalErrors;
+                backspacesElement.textContent = backspaceCount;
+                const elapsedTimeInMinutes = (new Date() - startTime) / 60000;
+                const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, elapsedTimeInMinutes);
+                wpmElement.textContent = wpm;
+                cpmElement.textContent = cpm;
+            }
+
+            function calculateWPMAndCPM(characters, timeInMinutes) {
+                const words = characters / 5;
+                const wpm = timeInMinutes > 0 ? Math.round(words / timeInMinutes) : 0;
+                const cpm = timeInMinutes > 0 ? Math.round(characters / timeInMinutes) : 0;
+                return { wpm, cpm };
+            }
+
+            function displayPopup(time, errors, wpm, cpm) {
+                const accuracy = totalCharacters > 0 ? ((totalCharacters - errors) / totalCharacters) * 100 : 0;
+                popupTime.textContent = time.toFixed(2);
+                popupErrors.textContent = errors;
+                popupWPM.textContent = wpm;
+                popupCPM.textContent = cpm;
+                popupAccuracy.textContent = accuracy.toFixed(2) + '%';
+                resultPopup.style.display = 'block';
+
+                const historyItem = document.createElement('li');
+                historyItem.textContent = `Time: ${time.toFixed(2)}s, Errors: ${errors}, WPM: ${wpm}, CPM: ${cpm}, Accuracy: ${accuracy.toFixed(2)}%`;
+                historyList.appendChild(historyItem);
+            }
+
+            restartBtn.addEventListener('click', () => {
+                resultPopup.style.display = 'none';
+                startPractice();
+            });
+
+            resetBtn.addEventListener('click', resetPractice);
+
+            backspaceToggle.addEventListener('change', () => {
+                if (!backspaceToggle.checked) {
+                    typingArea.addEventListener('keydown', handleBackspace);
+                } else {
+                    typingArea.removeEventListener('keydown', handleBackspace);
+                }
+            });
+
+            function handleBackspace(e) {
+                if (!backspaceToggle.checked && e.key === 'Backspace') {
+                    e.preventDefault();
+                }
+            }
+
+            startPractice();
+        });
+    </script>
+</body>
+</html>
