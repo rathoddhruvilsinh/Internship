@@ -214,6 +214,7 @@
                 <p>Errors: <span id="errors">0</span></p>
                 <p>WPM: <span id="wpm">0</span></p>
                 <p>CPM: <span id="cpm">0</span></p>
+                <p>Backspaces: <span id="backspaces">0</span></p>
             </div>
             <div class="card history">
                 <h2>History</h2>
@@ -245,6 +246,7 @@
             const errorsElement = document.getElementById('errors');
             const wpmElement = document.getElementById('wpm');
             const cpmElement = document.getElementById('cpm');
+            const backspacesElement = document.getElementById('backspaces');
             const historyList = document.getElementById('history-list');
             const resultPopup = document.getElementById('result-popup');
             const popupTime = document.getElementById('popup-time');
@@ -258,12 +260,15 @@
 
             let timer = 0;
             let errors = 0;
+            let totalErrors = 0;
             let interval;
             let startTime;
             let currentText = '';
             let userSetTime;
             let timerStarted = false;
             let typedCharacters = 0;
+            let previousLength = 0;
+            let backspaceCount = 0;
 
             function updateTimerDisplay() {
                 const minutes = Math.floor(timer / 60);
@@ -279,11 +284,7 @@
                 interval = setInterval(() => {
                     timer--;
                     if (timer < 0) {
-                        clearInterval(interval);
-                        typingArea.disabled = true;
-                        const timeInSeconds = userSetTime;
-                        const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, timeInSeconds / 60);
-                        displayPopup(timeInSeconds, errors, wpm, cpm);
+                        endTypingSession();
                     } else {
                         updateTimerDisplay();
                     }
@@ -299,14 +300,17 @@
                 userSetTime = parseInt(timerInput.value, 10);
                 timer = userSetTime;
                 errors = 0;
+                totalErrors = 0;
                 timerStarted = false;
                 startTime = null;
                 typedCharacters = 0;
+                previousLength = 0;
+                backspaceCount = 0;
                 updateStats();
                 updateTimerDisplay();
             }
 
-            typingArea.addEventListener('input', () => {
+            typingArea.addEventListener('input', (e) => {
                 if (!timerStarted) {
                     startTimer();
                     timerStarted = true;
@@ -316,8 +320,20 @@
                 const typedText = typingArea.value;
                 const textSpans = textToTypeElement.querySelectorAll('span');
                 
-                errors = 0;
                 typedCharacters = typedText.length;
+
+                // Count errors and backspaces
+                if (typedText.length < previousLength) {
+                    backspaceCount++;
+                } else if (typedText.length > previousLength) {
+                    const newChar = typedText[typedText.length - 1];
+                    const expectedChar = currentText[typedText.length - 1];
+                    if (newChar !== expectedChar) {
+                        totalErrors++;
+                    }
+                }
+
+                previousLength = typedText.length;
 
                 textSpans.forEach((span, index) => {
                     if (index < typedText.length) {
@@ -333,7 +349,6 @@
                                 span.classList.add('incorrect');
                                 span.classList.remove('space-error');
                             }
-                            errors++;
                         }
                     } else {
                         span.classList.remove('correct', 'incorrect', 'space-error');
@@ -342,18 +357,23 @@
 
                 updateStats();
 
-                if (typedText === currentText) {
-                    clearInterval(interval);
-                    typingArea.disabled = true;
-                    const endTime = new Date();
-                    const timeInMinutes = (endTime - startTime) / 60000;
-                    const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, timeInMinutes);
-                    displayPopup(timeInMinutes * 60, errors, wpm, cpm);
+                if (typedText.length >= currentText.length) {
+                    endTypingSession();
                 }
             });
 
+            function endTypingSession() {
+                clearInterval(interval);
+                typingArea.disabled = true;
+                const endTime = new Date();
+                const timeInMinutes = (endTime - startTime) / 60000;
+                const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, timeInMinutes);
+                displayPopup(timeInMinutes * 60, totalErrors, wpm, cpm);
+            }
+
             function updateStats() {
-                errorsElement.textContent = errors;
+                errorsElement.textContent = totalErrors;
+                backspacesElement.textContent = backspaceCount;
                 const elapsedTimeInMinutes = (new Date() - startTime) / 60000;
                 const { wpm, cpm } = calculateWPMAndCPM(typedCharacters, elapsedTimeInMinutes);
                 wpmElement.textContent = wpm;
@@ -361,7 +381,7 @@
             }
 
             function calculateWPMAndCPM(characters, timeInMinutes) {
-                const words = characters / 5; // Assuming average word length of 5 characters
+                const words = characters / 5;
                 const wpm = timeInMinutes > 0 ? Math.round((words / timeInMinutes)) : 0;
                 const cpm = timeInMinutes > 0 ? Math.round((characters / timeInMinutes)) : 0;
                 return { wpm, cpm };
